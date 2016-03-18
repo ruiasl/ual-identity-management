@@ -28,8 +28,9 @@ public class SimpleMessage extends BaseMessage {
 		super(toAddress, messageType, subject, body, bodyType, messageModule);
 	}
 	
-	/* (non-Javadoc)
-	 * @see pt.dsts.viactt.detail.messaging.BaseMessage#buildParameters()
+	/*
+	 * (non-Javadoc)
+	 * @see pt.ual.mgi.detail.messaging.BaseMessage#buildParameters()
 	 */
 	@Override
 	public void buildParameters() {}
