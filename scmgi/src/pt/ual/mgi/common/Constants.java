@@ -8,6 +8,7 @@ package pt.ual.mgi.common;
  */
 public class Constants {
 
+	// test push
 	public static final String MESSAGE_TYPE_EMAIL = "EMAIL";
 	public static final String UTF8_ENCODING = "UTF-8";
 	public static final String ISO_ENCODING = "ISO-8859-1";
