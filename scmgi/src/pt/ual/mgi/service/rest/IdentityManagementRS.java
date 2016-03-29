@@ -46,7 +46,7 @@ public class IdentityManagementRS extends SpringBeanAutowiringSupport{
 	private IMessagingManager messagingManager; 
 	
 	/**
-	 * Method that create an Account
+	 * Method that creates an Account
 	 * 
 	 * @param id
 	 * @return Response
@@ -67,7 +67,7 @@ public class IdentityManagementRS extends SpringBeanAutowiringSupport{
 	}
 	
 	/**
-	 * Method that get an Account for a received ID 
+	 * Method that gets an Account for a received ID 
 	 * 
 	 * @param id
 	 * @return Response
@@ -86,14 +86,14 @@ public class IdentityManagementRS extends SpringBeanAutowiringSupport{
 	}
 	
 	/**
-	 * Method that delete an Account for a received ID
+	 * Method that deletes an Account for a received ID
 	 * 
 	 * @param id
 	 * @return Response
 	 */
 	@DELETE
 	@Path("/accounts/{id}")
-	@ApiOperation(value = "Remove Conta", notes = "REmover uma conta de utilizador através do seu identificador de utilizador.")
+	@ApiOperation(value = "Remove Conta", notes = "Remover uma conta de utilizador através do seu identificador de utilizador.")
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "Conta Removida"),
 							@ApiResponse(code = 404, message = "UserAccount não encontrada") })
 	public Response deleteAccount(@ApiParam("id") @PathParam("id") String id) {
@@ -104,7 +104,7 @@ public class IdentityManagementRS extends SpringBeanAutowiringSupport{
 	}
 	
 	/**
-	 * Method that delete an Account for a received ID
+	 * Method that updates an Account for a received ID
 	 * 
 	 * @param id
 	 * @return Response
@@ -136,7 +136,7 @@ public class IdentityManagementRS extends SpringBeanAutowiringSupport{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/accounts/{id}/resetpassword")
-	@ApiOperation(value = "Reset da Password", notes = "Efetuar Reset À Password.")
+	@ApiOperation(value = "Reset da Password", notes = "Efetuar Reset à Password.")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Reset da Password efetuada"), 
 							@ApiResponse(code = 404, message = "UserAccount não encontrada") })
 	public Response resetAccountPassword(@ApiParam("id") @PathParam("id") String id, 
@@ -158,7 +158,7 @@ public class IdentityManagementRS extends SpringBeanAutowiringSupport{
 	}
 	
 	/**
-	 * Method that sends an email with password forgotten
+	 * Method that sends an email with the forgotten password
 	 * 
 	 * @param id
 	 * @param hintAnswer
@@ -170,7 +170,7 @@ public class IdentityManagementRS extends SpringBeanAutowiringSupport{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/accounts/{id}/forgotpassword")
-	@ApiOperation(value = "Recuperação da Password", notes = "Efetuar Recuperação À Password.")
+	@ApiOperation(value = "Recuperação da Password", notes = "Efetuar Recuperação à Password.")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Recuperação da Password efetuada"), 
 							@ApiResponse(code = 404, message = "UserAccount não encontrada") })
 	public Response forgotAccountPassword(@ApiParam("id") @PathParam("id") String id, 
