@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+   "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+   "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	
+	<definition name="main_template" template="/app/templates/blank.jsp">
+	</definition>
+
+	<definition name="login_template" template="/app/templates/baseNoMenuLayout.jsp">
+		
+		<put-attribute name="title"  value="MGI"/>
+      	<put-attribute name="taglibs" value="/app/templates/includes/taglibs.jsp"/>
+		<put-attribute name="html_head_links_js" value="/app/templates/includes/js_links.jsp"/>
+		<put-attribute name="html_head_links_css" value="/app/templates/includes/css_links.jsp"/>
+		<put-attribute name="area_col3" value=""/>
+		
+	</definition>
+
+   <definition name="baseLayout" template="/app/templates/baseLayout.jsp">
+      	<put-attribute name="title"  value="MGI"/>
+      	
+      	<put-attribute name="taglibs" value="/app/templates/includes/taglibs.jsp"/>
+		
+		<put-attribute name="html_head_links_js" value="/app/templates/includes/js_links.jsp"/>
+		<put-attribute name="html_head_links_css" value="/app/templates/includes/css_links.jsp"/>
+		
+		<put-attribute name="area_header" value="/app/templates/header.jsp"/>
+		<put-attribute name="area_nav" value="/app/templates/navigation.jsp"/>	
+		
+		<put-attribute name="menu" value="/app/restricted/navigation/menu.jsp"/>
+		
+		<put-attribute name="area_col3" value=""/>
+		<put-attribute name="area_footer" value="/app/templates/footer.jsp"/>			
+   </definition>
+
+	<definition name="login" extends="login_template">
+      <put-attribute name="area_col3" value="/app/open/login.jsp"/>
+   </definition>
+
+   <definition name="mgi" extends="baseLayout">
+      <put-attribute name="area_col3" value="/app/open/index.jsp"/>
+   </definition>
+  
+</tiles-definitions>
