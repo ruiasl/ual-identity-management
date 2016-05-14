@@ -40,8 +40,12 @@
       <put-attribute name="area_col3" value="/app/open/login.jsp"/>
    </definition>
 
+	<definition name="forgotPwd" extends="login_template">
+      <put-attribute name="area_col3" value="/app/open/forgotPwd.jsp"/>
+   </definition>
+
    <definition name="mgi" extends="baseLayout">
-      <put-attribute name="area_col3" value="/app/open/index.jsp"/>
+      <put-attribute name="area_col3" value="/app/open/profile.jsp"/>
    </definition>
   
 </tiles-definitions>

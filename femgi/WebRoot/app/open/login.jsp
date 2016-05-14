@@ -8,13 +8,14 @@
 	  <div class="login-box-body">
 	    <p class="login-box-msg"><s:text name="login.message.text"/></p>
 	
-	    <s:form action="index" namespace="/app/open" method="post">
+	    <s:form action="show" namespace="/app/open/profile" method="post">
 	      <div class="form-group has-feedback">
-	        <input type="email" class="form-control" placeholder="Email">
+	        <s:textfield type="email" name="userAccountDetail.email" theme="simple" cssClass="form-control" placeholder="%{getText('user.profile.email.placeholder')}"/>
 	        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 	      </div>
 	      <div class="form-group has-feedback">
-	        <input type="password" class="form-control" placeholder="Password">
+	        <!-- <input type="password" class="form-control" placeholder="Password"> -->
+	        <s:textfield type="password" name="userAccountDetail.password" theme="simple" cssClass="form-control" placeholder="%{getText('login.password.placeholder')}"/>
 	        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
 	      </div>
 	      <div class="row">
@@ -28,7 +29,7 @@
 	      </div>
 	    </s:form>
 	
-	    <a href="#"><s:text name="login.forgot.password"/></a><br>
+	    <a href="<s:url action="forgotPwd" namespace="/app/open"/>"><s:text name="login.forgot.password"/></a><br>
 	
 	  </div>
 	  <!-- /.login-box-body -->

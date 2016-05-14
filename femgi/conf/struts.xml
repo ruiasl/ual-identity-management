@@ -13,16 +13,39 @@
 
 		<result-types>
 			<result-type name="tiles"
-				class="org.apache.struts2.views.tiles.TilesResult" />
+			class="org.apache.struts2.views.tiles.TilesResult" />
 		</result-types>
-		
-		<action name="index" class="pt.ual.mgi.action.HomeAction">
-			<result name="success" type="tiles">mgi</result>
-		</action>
 
 		<action name="login" class="pt.ual.mgi.action.HomeAction">
 			<result name="success" type="tiles">login</result>
 		</action>
+		
+		<action name="forgotPwd" method="forgotPwd" class="pt.ual.mgi.action.UserProfileAction">
+			<result name="success" type="tiles">forgotPwd</result>
+		</action>
+
+		<action name="recoverPwd" method="recoverPwd" class="pt.ual.mgi.action.UserProfileAction">
+			<result name="success" type="tiles">login</result>
+		</action>
+		
+	</package>
+
+	<package name="/app/open/profile" extends="struts-default">
+		
+		<result-types>
+			<result-type name="tiles"
+			class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>
+		
+		
+		<action name="show" class="pt.ual.mgi.action.UserProfileAction">
+			<result name="success" type="tiles">mgi</result>
+		</action>
+		
+		<action name="update" method="update" class="pt.ual.mgi.action.UserProfileAction">
+			<result name="success" type="tiles">mgi</result>
+		</action>
+		
 	</package>
 
 </struts>

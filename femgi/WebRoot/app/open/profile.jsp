@@ -16,22 +16,22 @@
 					<!-- text input -->
 					<div class="form-group">
 						<label><s:text name="user.profile.id"/></label> 
-						<s:textfield name="id" theme="simple" cssClass="form-control" disabled="true"/>
+						<s:textfield name="userAccountDetail.id" theme="simple" cssClass="form-control" disabled="true"/>
 					</div>
 					<div class="form-group">
 						<label><s:text name="user.profile.name"/></label> 
-						<s:textfield name="name" theme="simple" cssClass="form-control" placeholder="%{getText('user.profile.name.placeholder')}"/>
+						<s:textfield name="userAccountDetail.name" theme="simple" cssClass="form-control" placeholder="%{getText('user.profile.name.placeholder')}"/>
 					</div>
 					<div class="form-group">
 						<label><s:text name="user.profile.email"/></label>
 						<!-- <div class="input-group"> -->
 							<%-- <span class="input-group-addon">@</span> --%> 
-							<s:textfield name="email" theme="simple" cssClass="form-control" placeholder="%{getText('user.profile.email.placeholder')}"/>
+							<s:textfield name="userAccountDetail.email" theme="simple" cssClass="form-control" placeholder="%{getText('user.profile.email.placeholder')}"/>
 						<!-- </div> -->
 					</div>
 					<div class="form-group">
 						<label><s:text name="user.profile.phone"/></label> 
-						<s:textfield name="phone" theme="simple" cssClass="form-control" placeholder="%{getText('user.profile.phone.placeholder')}"/>
+						<s:textfield name="userAccountDetail.phone" theme="simple" cssClass="form-control" placeholder="%{getText('user.profile.phone.placeholder')}"/>
 						
 					</div>
 			
