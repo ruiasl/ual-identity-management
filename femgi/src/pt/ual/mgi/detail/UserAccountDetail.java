@@ -1,24 +1,21 @@
 /**
  * 
  */
-package pt.ual.mgi.service.rest.resource;
+package pt.ual.mgi.detail;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 
 /**
- * Class that represents the user resource
+ * Class that represents the user Account Detail
  * 
  * @author 20070337
  * @version 1.0	
  */
-@XmlRootElement
-public class UserAccount implements Serializable {
+public class UserAccountDetail implements Serializable {
 
-	private static final long serialVersionUID = -6208232749424287554L;
-
+	private static final long serialVersionUID = 8146336192478978841L;
+	
 	private String id;
 	private String username;
 	private String name;
@@ -30,7 +27,7 @@ public class UserAccount implements Serializable {
 	private String hintAnswer;
 	
 	/**Base Constructor*/
-	public UserAccount() {super();}
+	public UserAccountDetail() {super();}
 
 	/**@return the id*/
 	public String getId() {return id;}
@@ -51,8 +48,12 @@ public class UserAccount implements Serializable {
 	/**@return the name*/
 	public String getName() {return name;}
 	
-	/**@param id the id to set*/
-	public void setId(String id) {this.id = id;}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
 	/**
 	 * @param username the username to set
 	 */

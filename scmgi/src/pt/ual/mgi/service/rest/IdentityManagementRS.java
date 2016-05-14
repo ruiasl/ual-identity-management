@@ -81,8 +81,16 @@ public class IdentityManagementRS extends SpringBeanAutowiringSupport{
 	public Response getAccount(@ApiParam("id") @PathParam("id") String id) {
 		log.debug("Entering IdentityManagementRS.getAccount...");
 		
+		UserAccount account = new UserAccount();
+		account.setId("123456");
+		account.setNumber("20070337");
+		account.setUsername("20070337@students.ual.pt");
+		account.setEmail("ruiaslopes@gmail.com");
+		account.setPhone("914303502");
+		account.setName("Rui Lopes");
+		
 		log.debug("Exiting IdentityManagementRS.getAccount...");
-		return Response.ok().build();
+		return Response.ok(account).build();
 	}
 	
 	/**
@@ -166,7 +174,7 @@ public class IdentityManagementRS extends SpringBeanAutowiringSupport{
 	 * 
 	 * @return Response
 	 */
-	@GET
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/accounts/{id}/forgotpassword")

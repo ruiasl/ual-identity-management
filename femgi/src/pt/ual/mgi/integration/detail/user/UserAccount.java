@@ -1,7 +1,7 @@
 /**
  * 
  */
-package pt.ual.mgi.service.rest.resource;
+package pt.ual.mgi.integration.detail.user;
 
 import java.io.Serializable;
 
