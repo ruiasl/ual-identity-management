@@ -12,35 +12,38 @@ package pt.ual.mgi.detail.useraccount;
  */
 public class UserAccount {
 	protected String userName;
+	protected String userSurname;
+	protected String displayName;
 	protected String userId;
 	protected String userPassword;
 	protected String userEmail;
-	protected String userPhoneNbr;
-	protected String userSecretQuestion;
-	protected String userSecretAnswer;
+	protected String personalEmail;
+	protected String secretQuestion;
+	protected String secretAnswer;
 	
 	/**
 	 * Constructor
 	 * 
 	 * @param userName
+	 * @param userSurname
+	 * @param displayName
 	 * @param userId
 	 * @param userPassword
 	 * @param userEmail
-	 * @param userPhoneNbr
-	 * @param userSecretQuestion
-	 * @param userSecretAnswer
+	 * @param personalEmail
+	 * @param secretQuestion
+	 * @param secretAnswer
 	 */
-	public UserAccount(String userName, String userId, String userPassword,
-			String userEmail, String userPhoneNbr, String userSecretQuestion,
-			String userSecretAnswer) {
+	public UserAccount(String userName, String userSurname, String displayName, 
+			String userId, String userPassword, String userEmail, String personalEmail,
+			String secretQuestion, String secretAnswer) {
 		super();
 		this.userName = userName;
 		this.userId = userId;
 		this.userPassword = userPassword;
 		this.userEmail = userEmail;
-		this.userPhoneNbr = userPhoneNbr;
-		this.userSecretQuestion = userSecretQuestion;
-		this.userSecretAnswer = userSecretAnswer;
+		this.secretQuestion = secretQuestion;
+		this.secretAnswer = secretAnswer;
 	}
 
 	/**@return the userName*/
@@ -91,40 +94,63 @@ public class UserAccount {
 		this.userEmail = userEmail;
 	}
 
-	/**@return the userPhoneNbr*/
-	public String getUserPhoneNbr() {
-		return userPhoneNbr;
+	/**@return the userSurname*/
+	public String getUserSurname() {
+		return userSurname;
 	}
 
 	/**
-	 * @param userPhoneNbr the userPhoneNbr to set
+	 * @param userSurname the userSurname to set
 	 */
-	public void setUserPhoneNbr(String userPhoneNbr) {
-		this.userPhoneNbr = userPhoneNbr;
+	public void setUserSurname(String userSurname) {
+		this.userSurname = userSurname;
 	}
 
-	/**@return the userSecretQuestion*/
-	public String getUserSecretQuestion() {
-		return userSecretQuestion;
+	/**@return the displayName*/
+	public String getDisplayName() {
+		return displayName;
 	}
 
 	/**
-	 * @param userSecretQuestion the userSecretQuestion to set
+	 * @param displayName the displayName to set
 	 */
-	public void setUserSecretQuestion(String userSecretQuestion) {
-		this.userSecretQuestion = userSecretQuestion;
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 
-	/**@return the userSecretAnswer*/
-	public String getUserSecretAnswer() {
-		return userSecretAnswer;
+	/**@return the personalEmail*/
+	public String getPersonalEmail() {
+		return personalEmail;
 	}
 
 	/**
-	 * @param userSecretAnswer the userSecretAnswer to set
+	 * @param personalEmail the personalEmail to set
 	 */
-	public void setUserSecretAnswer(String userSecretAnswer) {
-		this.userSecretAnswer = userSecretAnswer;
+	public void setPersonalEmail(String personalEmail) {
+		this.personalEmail = personalEmail;
 	}
 
+	/**@return the secretQuestion*/
+	public String getSecretQuestion() {
+		return secretQuestion;
+	}
+
+	/**
+	 * @param secretQuestion the secretQuestion to set
+	 */
+	public void setSecretQuestion(String secretQuestion) {
+		this.secretQuestion = secretQuestion;
+	}
+
+	/**@return the secretAnswer*/
+	public String getSecretAnswer() {
+		return secretAnswer;
+	}
+
+	/**
+	 * @param secretAnswer the secretAnswer to set
+	 */
+	public void setSecretAnswer(String secretAnswer) {
+		this.secretAnswer = secretAnswer;
+	}
 }

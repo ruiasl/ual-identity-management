@@ -13,6 +13,12 @@
 
 	<util:properties location="classpath:email.properties" id="emailProperties" />
 	<context:property-placeholder properties-ref="emailProperties"  />
+	<!--alterar para os atributos definitivos-->
+	<util:map id="customUserAttributes">
+			<entry key="name" value="Name"/>
+			<entry key="address" value="Address1" />
+			<entry key="address2" value="Address2" />
+	</util:map>
 
 	<context:component-scan base-package="pt.ual.mgi" />
 
