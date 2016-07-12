@@ -16,21 +16,44 @@
 			class="org.apache.struts2.views.tiles.TilesResult" />
 		</result-types>
 
-		<action name="login" class="pt.ual.mgi.action.HomeAction">
+		<action name="login" class="pt.ual.mgi.action.LoginAction">
 			<result name="success" type="tiles">login</result>
 		</action>
 		
-		<action name="forgotPwd" method="forgotPwd" class="pt.ual.mgi.action.UserProfileAction">
+		<action name="logout" class="pt.ual.mgi.action.LogoutAction">
+			<result name="input" type="tiles">login</result>
+			<result name="success" type="tiles">login</result>
+		</action>
+		
+		<action name="accessdenied" class="pt.ual.mgi.action.AccessDeniedAction">
+			<result name="success" type="tiles">login</result>
+		</action>
+		
+		<action name="recoverPassword" class="pt.ual.mgi.action.ManagePasswordAction">
+			<result name="error" type="tiles">login</result>
 			<result name="success" type="tiles">forgotPwd</result>
 		</action>
-
-		<action name="recoverPwd" method="recoverPwd" class="pt.ual.mgi.action.UserProfileAction">
-			<result name="success" type="tiles">login</result>
-		</action>
 		
+		<action name="resetPassword" method="resetPassword" class="pt.ual.mgi.action.ManagePasswordAction">
+			<result name="success" type="tiles">login</result>
+			<result name="error" type="tiles">forgotPwd</result>
+		</action>		
 	</package>
 
-	<package name="/app/open/profile" extends="struts-default">
+	<package name="/app/restricted" extends="struts-default">
+		
+		<result-types>
+			<result-type name="tiles"
+			class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>
+		
+		<action name="home" class="pt.ual.mgi.action.HomeAction">
+			<result name="error" type="tiles">home</result>
+			<result name="success" type="tiles">home</result>
+		</action>				
+	</package>
+
+	<package name="/app/restricted/profile" extends="struts-default">
 		
 		<result-types>
 			<result-type name="tiles"
@@ -39,11 +62,40 @@
 		
 		
 		<action name="show" class="pt.ual.mgi.action.UserProfileAction">
-			<result name="success" type="tiles">mgi</result>
+			<interceptor-ref name="store">
+				<param name="operationMode">AUTOMATIC</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<result name="success" type="tiles">profile</result>
+			<result  name="error" type="redirectAction">
+            	<param name="actionName">home</param>
+            	<param name="namespace">/app/restricted</param>
+            </result>
 		</action>
 		
 		<action name="update" method="update" class="pt.ual.mgi.action.UserProfileAction">
-			<result name="success" type="tiles">mgi</result>
+			<interceptor-ref name="store">
+				<param name="operationMode">AUTOMATIC</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<result  name="success" type="redirectAction">
+            	<param name="actionName">show</param>
+            	<param name="namespace">/app/restricted/profile</param>
+            </result>
+			<result name="error" type="tiles">profile</result>
+		</action>
+		
+		<action name="showSecProfile" method="showSecProfile" class="pt.ual.mgi.action.UserProfileAction">
+			<result name="success" type="tiles">secProfile</result>
+			<result  name="error" type="redirectAction">
+            	<param name="actionName">home</param>
+            	<param name="namespace">/app/restricted</param>
+            </result>
+		</action>
+		
+		<action name="updateSecProfile" method="updateSecProfile" class="pt.ual.mgi.action.UserProfileAction">
+			<result name="success" type="tiles">secProfile</result>
+			<result name="error" type="tiles">secProfile</result>
 		</action>
 		
 	</package>

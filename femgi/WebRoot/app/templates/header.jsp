@@ -17,7 +17,7 @@
       <li class="dropdown user user-menu">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
           <img src="<s:url value='/app/img/user_default.png'/>" class="user-image" alt="">
-          <span class="hidden-xs">User Name</span>
+          <span class="hidden-xs"><s:property value="principalUserName" /></span>
         </a>
         <ul class="dropdown-menu">
           <!-- User image -->
@@ -25,18 +25,18 @@
             <img src="<s:url value='/app/img/user_default.png'/>" class="img-circle" alt="User Image">
 
             <p>
-              User Name
-              <small>Mebro desde 2012</small>
+              <s:property value="principalUserName" />
+              <small><s:property value="principalUsername" /></small>
             </p>
           </li>
           <!-- Menu Footer-->
           <li class="user-footer">
             <div class="pull-left">
-              <a href="<s:url action='index' namespace='/app/open'/>" class="btn btn-default btn-flat"><s:text name="menu.profile.title"/></a>
+              <a href="<s:url action='show' namespace='/app/restricted/profile'/>" class="btn btn-default btn-flat"><s:text name="menu.profile.title"/></a>
             </div>
             
             <div class="pull-right">
-              <a href="#" class="btn btn-default btn-flat"><s:text name="menu.signout"/></a>
+              <a href="<s:url value="/app/restricted/logout.jsp" />" class="btn btn-default btn-flat"><s:text name="menu.signout"/></a>
             </div>
           </li>
         </ul>

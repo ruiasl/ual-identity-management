@@ -61,7 +61,7 @@ public class MessagingTransportListener implements TransportListener  {
 	/**
 	 * Method to complete the messaging log
 	 * This method should be overrided if the application type, module and 
-	 * message type isn´t the specified
+	 * message type isn't the specified
 	 * 
 	 * @param log_
 	 * @return MessageLogDetail
@@ -77,7 +77,7 @@ public class MessagingTransportListener implements TransportListener  {
 	}
 	
 	/**
-	 * Method that write´s the information into the Log 
+	 * Method that write's the information into the Log 
 	 * @param logDetail_
 	 */
 	private void writeMessagingLog(MessageLogDetail logDetail_) {

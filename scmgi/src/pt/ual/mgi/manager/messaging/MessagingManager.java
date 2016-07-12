@@ -1,7 +1,6 @@
 package pt.ual.mgi.manager.messaging;
 
 import java.util.Date;
-import java.util.Properties;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -21,7 +20,6 @@ import javax.mail.util.ByteArrayDataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pt.ual.mgi.common.Constants;
@@ -43,9 +41,6 @@ import pt.ual.mgi.manager.messaging.listener.MessagingTransportListener;
 public class MessagingManager extends BaseMessagingManager implements IMessagingManager {
 
 	private Logger log = LoggerFactory.getLogger(MessagingManager.class);
-	
-	@Autowired
-	private Properties emailProperties;
 	
 	/*
 	 * (non-Javadoc)

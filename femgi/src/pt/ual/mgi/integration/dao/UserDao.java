@@ -2,25 +2,19 @@ package pt.ual.mgi.integration.dao;
 
 import java.util.Properties;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import pt.ual.mgi.exception.BusinessMgiException;
 import pt.ual.mgi.exception.MgiException;
-import pt.ual.mgi.integration.detail.user.UserAccount;
-
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import pt.ual.mgi.exception.UserNotFoundException;
+import pt.ual.mgi.integration.client.ApiClient;
+import pt.ual.mgi.integration.client.ApiException;
+import pt.ual.mgi.integration.client.api.IdentitiesApi;
+import pt.ual.mgi.integration.client.model.UserAccount;
 
 /**
  * Class that executes the operations on User
@@ -38,7 +32,7 @@ public class UserDao implements IUserDao {
 	@Autowired
 	private Properties restClientProperties;
 	
-	private Client client;
+	private IdentitiesApi identitiesApi;
 	
 	/*
 	 * (non-Javadoc)
@@ -61,37 +55,18 @@ public class UserDao implements IUserDao {
 		log.debug("Entering UserDat.getAccount...");
 		
 		UserAccount userAccount = null;
-		
 		try{
-		
-			StringBuilder accountsResourceUrlBuilder = new StringBuilder(
-					this.restClientProperties.getProperty("scmgi.rest.identities.base.url"));
-			accountsResourceUrlBuilder.append(
-					this.restClientProperties.getProperty("scmgi.rest.identities.accounts.resource"));
+			log.debug("Getting the user account by id: {}", id);
+			userAccount = this.getScmgiClient().getAccount(id);
 			
-			WebTarget webTarget = 
-					this.getScmgiClient().target(accountsResourceUrlBuilder.toString()).path(id);
-			
-			Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
-			Response response = invocationBuilder.get();
-			 
-			if(response == null){
-				log.error("Could not obtain response from identities service...");
-				throw new MgiException("Could not obtain response from identities service...");
+		} catch(ApiException e){
+			if(e.getCode() == HttpStatus.NOT_FOUND.value()){
+				log.error("User with id {} not found.", id);
+				throw new UserNotFoundException("User with id {} not found." + id);
 			}
-			
-			if(!HttpStatus.OK.equals(response.getStatus())){
-				if(HttpStatus.NOT_FOUND.equals(response.getStatus())){
-					log.error("User with id {} not found.", id);
-					throw new UsernameNotFoundException("User with id {} not found." + id);
-				}
-				log.error("Error getting user from identities service...");
-				throw new MgiException("Error getting user from identities service...");
-			}
-			
-			userAccount = response.readEntity(UserAccount.class);
-			
-		}catch(Exception e){
+			log.error("Error getting user: " + e.getMessage());
+			throw new MgiException(e.getMessage());
+		} catch(Exception e){
 			log.error("Error getting user: " + e.getMessage());
 			throw new MgiException(e.getMessage());
 		}
@@ -104,9 +79,26 @@ public class UserDao implements IUserDao {
 	 * @see pt.ual.mgi.integration.dao.IUserDao#updateAccount(pt.ual.mgi.detail.UserAccount)
 	 */
 	@Override
-	public UserAccount updateAccount(UserAccount userAccount) {
-		// TODO Auto-generated method stub
-		return null;
+	public UserAccount updateAccount(UserAccount userAccount) throws MgiException {
+		log.debug("Entering UserDao.updateAccount...");
+		
+		try{
+			log.debug("Update the the user account by id: {}", userAccount.getId());
+			userAccount = this.getScmgiClient().updateAccount(userAccount.getId(), userAccount);
+			
+		} catch(ApiException e){
+			if(e.getCode() == HttpStatus.NOT_FOUND.value()){
+				log.error("User with id {} not found.", userAccount.getId());
+				throw new UserNotFoundException("User with id {} not found." + userAccount.getId());
+			}
+			log.error("Error updating user: " + e.getMessage());
+			throw new MgiException(e.getMessage());
+		} catch(Exception e){
+			log.error("Error updating user: " + e.getMessage());
+			throw new MgiException(e.getMessage());
+		}
+		log.debug("Exiting UserDao.updateAccount...");
+		return userAccount;
 	}
 
 	/*
@@ -114,9 +106,25 @@ public class UserDao implements IUserDao {
 	 * @see pt.ual.mgi.integration.dao.IUserDao#deleteAccount(java.lang.String)
 	 */
 	@Override
-	public void deleteAccount(String id) {
-		// TODO Auto-generated method stub
-
+	public void deleteAccount(String id) throws MgiException {
+		log.debug("Entering UserDao.deleteAccount...");
+		
+		try{
+			log.debug("Delete the the user account by id: {}", id);
+			this.getScmgiClient().deleteAccount(id);
+			
+		} catch(ApiException e){
+			if(e.getCode() == HttpStatus.NOT_FOUND.value()){
+				log.error("User with id {} not found.", id);
+				throw new UserNotFoundException("User with id {} not found." + id);
+			}
+			log.error("Error deleting user: " + e.getMessage());
+			throw new MgiException(e.getMessage());
+		} catch(Exception e){
+			log.error("Error deleting user: " + e.getMessage());
+			throw new MgiException(e.getMessage());
+		}
+		log.debug("Exiting UserDao.deleteAccount...");	
 	}
 
 	/*
@@ -124,9 +132,23 @@ public class UserDao implements IUserDao {
 	 * @see pt.ual.mgi.integration.dao.IUserDao#resetAccountPassword(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public boolean resetAccountPassword(String id, String oldPwd, String newPwd) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean resetAccountPassword(String id, String oldPwd, String newPwd) throws MgiException {
+		log.debug("Entering UserDao.resetAccountPassword...");
+		
+		try{			
+			this.getScmgiClient().resetAccountPassword(id, oldPwd, newPwd);			
+			return true;
+		} catch(ApiException e){
+			if(e.getCode() == HttpStatus.NOT_FOUND.value()){
+				log.error("User with id {} not found.", id);
+				throw new UserNotFoundException("User with id {} not found." + id);
+			}
+			log.error("Error getting user: " + e.getMessage());
+			throw new MgiException(e.getMessage());
+		} catch(Exception e){
+			log.error("Error getting user: " + e.getMessage());
+			throw new MgiException(e.getMessage());
+		}
 	}
 
 	/*
@@ -134,28 +156,36 @@ public class UserDao implements IUserDao {
 	 * @see pt.ual.mgi.integration.dao.IUserDao#forgotAccountPassword(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public boolean forgotAccountPassword(String id, String hintAnswer,
-			String email) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean forgotAccountPassword(String id, String hintAnswer,String email) throws MgiException {
+		log.debug("Entering UserDao.forgotAccountPassword...");
+		
+		try{			
+			this.getScmgiClient().forgotAccountPassword(id, hintAnswer, email);			
+			return true;
+		} catch(ApiException e){
+			if(e.getCode() == HttpStatus.NOT_FOUND.value()){
+				log.error("User with id {} not found.", id);
+				throw new UserNotFoundException("User with id {} not found." + id);
+			}
+			log.error("Error getting user: " + e.getMessage());
+			throw new MgiException(e.getMessage());
+		} catch(Exception e){
+			log.error("Error getting user: " + e.getMessage());
+			throw new MgiException(e.getMessage());
+		}
 	}
 	
 	/**
 	 * Method that creates the client
-	 * @return Client
+	 * @return IdentitiesApi
 	 */
-	private Client getScmgiClient(){	
-		log.debug("Method that obtains the rest client...");
-		if(this.client == null){
-			try{
-				client = ClientBuilder.newClient();
-				client.register(new JacksonJsonProvider());
-			}catch(Exception e){
-				log.error("Error creating client: {}", e.getMessage());
-				client = null;
-			}
+	private IdentitiesApi getScmgiClient(){
+		if(this.identitiesApi==null){
+			
+			ApiClient apiClient = new ApiClient().setBasePath(
+					this.restClientProperties.getProperty("scmgi.rest.identities.base.url"));
+			this.identitiesApi = new IdentitiesApi(apiClient);
 		}
-		return client;
+		return this.identitiesApi;
 	}
-	
 }

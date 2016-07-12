@@ -13,6 +13,9 @@
 
 	<util:properties location="classpath:restclient.properties" id="restClientProperties" />
 	<context:property-placeholder properties-ref="restClientProperties"  />
+	
+	<util:properties location="classpath:ldap.properties" id="ldapProperties" />
+	<context:property-placeholder properties-ref="ldapProperties"  />
 
 	<context:component-scan base-package="pt.ual.mgi" />
 

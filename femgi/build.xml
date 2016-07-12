@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="femgi" default="build-war" basedir=".">
+	
+    <property file="build.properties"/>
+
+	<property environment="env"/>
+
+	<property name="src.dir" value="${basedir}/src"/>
+	<property name="release.dir" value="${basedir}/../../releases/${project.name}"/>
+	<property name="exploded.dir" value="${release.dir}/webapp"/>
+	<property name="classes.dir" value="${exploded.dir}/WEB-INF/classes"/>
+
+	<property name="lib.dir" value="${exploded.dir}/WEB-INF/lib"/>
+	<property name="dist.dir" value="${basedir}/../../dist"/>
+	
+	<property name="libs.dir" value="${basedir}/WebRoot/WEB-INF/lib"/>
+	
+	<property name="deploy.base" value="D:\Transfer" />
+	<property name="deploy.dir" value="${deploy.base}/${project.name}" />
+
+	<condition property="war.file.name" value="${project.name}.${env.APP_VERSION}.war" else="${project.name}.war">
+	    <isset property="env.APP_VERSION"/>
+	</condition>	
+	
+	<target name="clean">
+		<delete dir="${release.dir}"/>
+		<delete dir="${classes.dir}"/>
+	</target>
+
+	<target name="init" depends="clean">
+		
+		<echo message="Java home: ${env.JAVA_HOME}" />
+
+    	<condition property="generateJavaDocs">  
+    		<istrue value="${generate.javadocs}"/>
+    	</condition>
+		
+		<mkdir dir="${release.dir}"/>
+
+		<echo message="Libs dir ${libs.dir}" />
+		
+		<path id="classpath.compile">
+
+			<fileset dir="${libs.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+			
+		</path>
+		
+	</target>
+	
+	<target name="copyResources">
+		
+		<echo message="Copying the resources..."/>
+		
+		<copy todir="${exploded.dir}">
+			<fileset dir="${basedir}/${web.root.folder}">
+				<exclude name="**/*.git"/>
+			</fileset>
+		</copy>
+		
+		<copy todir="${lib.dir}" flatten="true" includeEmptyDirs="false" failonerror="true">
+
+		    <fileset dir="${libs.dir}">
+		    	<include name="**/*.jar" />	
+		    </fileset>
+		</copy>
+		
+		<copy todir="${classes.dir}">
+			
+			<fileset dir="${basedir}/conf">
+				<exclude name="**/*.git"/>
+			</fileset>
+						
+			<fileset dir="${basedir}/src/">
+				<exclude name="**/*.git"/>
+				<exclude name="**/*.java"/>
+			</fileset>
+			
+			<fileset dir="${basedir}/resources/">
+				<exclude name="**/*.git"/>
+			</fileset>
+			
+		</copy>
+		
+	</target>
+	
+	<target name="compile" depends="init, copyResources">
+		
+		<echo message="Compiling..."/>
+		
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" deprecation="false" debug="true" includeantruntime="false">
+			<classpath refid="classpath.compile"/>
+		</javac>
+		
+	</target>
+
+	<target name="package-war" depends="compile">
+		
+		<echo message="Making ${war.file.name}..."/>
+
+		<war destfile="${release.dir}/${war.file.name}" duplicate="preserve" webxml="${exploded.dir}/WEB-INF/web.xml" compress="true">
+			<fileset dir="${exploded.dir}"/>
+		</war>
+
+	</target>
+
+	<target name="deploy">
+
+		<mkdir dir="${deploy.dir}" />
+
+		<copy file="${release.dir}/${war.file.name}" tofile="${deploy.dir}/${war.file.name}" />
+		
+	</target>
+	
+	<target name="build-war" depends="package-war, deploy" />	
+
+</project>

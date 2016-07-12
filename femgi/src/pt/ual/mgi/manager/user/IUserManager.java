@@ -35,14 +35,16 @@ public interface IUserManager {
 	 * 
 	 * @param userAccountDetail
 	 * @return UserAccountDetail
+	 * @throws MgiException 
 	 */
-	public UserAccountDetail updateAccount(UserAccountDetail userAccountDetail);
+	public UserAccountDetail updateAccount(UserAccountDetail userAccountDetail) throws MgiException;
 	
 	/**
 	 * Method that deletes an UserAccount
 	 * @param id
+	 * @throws MgiException 
 	 */
-	public void deleteAccount(String id);
+	public void deleteAccount(String id) throws MgiException;
 	
 	/**
 	 * Method that resets an user Password
@@ -51,8 +53,9 @@ public interface IUserManager {
 	 * @param oldPwd
 	 * @param newPwd
 	 * @return boolean
+	 * @throws MgiException 
 	 */
-	public boolean resetAccountPassword(String id, String oldPwd, String newPwd);
+	public boolean resetAccountPassword(String id, String oldPwd, String newPwd) throws MgiException;
 	
 	/**
 	 * Method that sends a password to user
@@ -61,8 +64,7 @@ public interface IUserManager {
 	 * @param hintAnswer
 	 * @param email
 	 * @return boolean
+	 * @throws MgiException 
 	 */
-	public boolean forgotAccountPassword(String id, String hintAnswer, String email);
-
-	
+	public boolean forgotAccountPassword(String id, String hintAnswer, String email) throws MgiException;
 }

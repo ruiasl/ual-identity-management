@@ -6,7 +6,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import pt.ual.mgi.detail.UserAccountDetail;
-import pt.ual.mgi.integration.detail.user.UserAccount;
+import pt.ual.mgi.integration.client.model.UserAccount;
 
 /**
  * Class that converts an useraccountdetail to useraccount

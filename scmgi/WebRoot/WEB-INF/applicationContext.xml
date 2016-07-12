@@ -14,6 +14,12 @@
 	<util:properties location="classpath:email.properties" id="emailProperties" />
 	<context:property-placeholder properties-ref="emailProperties"  />
 
+	<util:properties location="classpath:restserver.properties" id="restServerProperties" />
+	<context:property-placeholder properties-ref="restServerProperties"  />
+	
+	<util:properties location="classpath:ldap.properties" id="ldapProperties" />
+	<context:property-placeholder properties-ref="ldapProperties"  />
+
 	<context:component-scan base-package="pt.ual.mgi" />
 
 </beans>

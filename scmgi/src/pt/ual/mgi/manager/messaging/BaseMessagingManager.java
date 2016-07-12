@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Properties;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
@@ -23,6 +24,7 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pt.ual.mgi.common.Constants;
@@ -39,9 +41,10 @@ import pt.ual.mgi.exception.MgiException;
 public abstract class BaseMessagingManager {
 	
 	private Logger log = LoggerFactory.getLogger(BaseMessagingManager.class);
-	
-	protected static final String DEFAULT_XSL_TEMPLATE_FILENAME = "D:\\SCMGI\\conf\\templates.xsl";
 		
+	@Autowired
+	protected Properties emailProperties;
+	
 	/**
 	 * Method that applies a template to a message
 	 * 
@@ -126,7 +129,7 @@ public abstract class BaseMessagingManager {
 	private InputStream getXsltDataFromFile() throws MgiException {
 		log.debug("Entering getXsltDataFromFile");
 		InputStream input = null;
-		String name = DEFAULT_XSL_TEMPLATE_FILENAME; 
+		String name = this.emailProperties.getProperty("mail.template.file.location"); 
 		
 		File file = new File(name);
 		if(!file.exists())

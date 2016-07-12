@@ -2,7 +2,7 @@ package pt.ual.mgi.integration.dao;
 
 import pt.ual.mgi.exception.BusinessMgiException;
 import pt.ual.mgi.exception.MgiException;
-import pt.ual.mgi.integration.detail.user.UserAccount;
+import pt.ual.mgi.integration.client.model.UserAccount;
 
 /**
  * Class that represents the signature for UserDao operations 
@@ -35,14 +35,16 @@ public interface IUserDao {
 	 * 
 	 * @param userAccount
 	 * @return UserAccount
+	 * @throws MgiException 
 	 */
-	public UserAccount updateAccount(UserAccount userAccount);
+	public UserAccount updateAccount(UserAccount userAccount) throws MgiException;
 	
 	/**
 	 * Method that deletes an UserAccount
 	 * @param id
+	 * @throws MgiException 
 	 */
-	public void deleteAccount(String id);
+	public void deleteAccount(String id) throws MgiException;
 	
 	/**
 	 * Method that resets an user Password
@@ -51,8 +53,9 @@ public interface IUserDao {
 	 * @param oldPwd
 	 * @param newPwd
 	 * @return boolean
+	 * @throws MgiException 
 	 */
-	public boolean resetAccountPassword(String id, String oldPwd, String newPwd);
+	public boolean resetAccountPassword(String id, String oldPwd, String newPwd) throws MgiException;
 	
 	/**
 	 * Method that sends a password to user
@@ -61,6 +64,7 @@ public interface IUserDao {
 	 * @param hintAnswer
 	 * @param email
 	 * @return boolean
+	 * @throws MgiException 
 	 */
-	public boolean forgotAccountPassword(String id, String hintAnswer, String email);
+	public boolean forgotAccountPassword(String id, String hintAnswer, String email) throws MgiException;
 }

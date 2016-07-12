@@ -10,7 +10,7 @@ import com.opensymphony.xwork2.ActionSupport;
  * 
  * @see ActionSupport
  */
-public class HomeAction extends ActionSupport {
+public class HomeAction extends BaseAction {
 
 	private static final long serialVersionUID = 8774068336054480666L;
 

@@ -3,9 +3,9 @@
  */
 package pt.ual.mgi.service.rest.resource;
 
-import java.io.Serializable;
+import io.swagger.annotations.ApiModel;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 
 /**
@@ -14,11 +14,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author 20070337
  * @version 1.0	
  */
-@XmlRootElement
+@ApiModel
 public class UserAccount implements Serializable {
 
 	private static final long serialVersionUID = -6208232749424287554L;
-
+	
 	private String id;
 	private String username;
 	private String name;

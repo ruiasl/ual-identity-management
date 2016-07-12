@@ -14,7 +14,7 @@ import pt.ual.mgi.common.Constants;
 public class ForgotPasswordTemplateMessage extends TemplateBaseMessage {
 
 	private String hintAnswer; 
-	private static String SUBJECT = "Recuperação da Password";
+	private static String SUBJECT = "Recuperacao da Password";
 	private static String MESSAGE_MODULE = "ForgotPassword";
 	
 	/**

@@ -5,5 +5,5 @@
 	<img src="<s:url value='/app/img/user_default.png'/>" class="img-circle" alt="User Image">
 </div>
 <div class="pull-left info">
-	<p>User Name</p>
+	<p><s:property value="userData.name"/></p>
 </div>

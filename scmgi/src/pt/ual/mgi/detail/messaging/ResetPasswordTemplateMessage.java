@@ -14,7 +14,7 @@ import pt.ual.mgi.common.Constants;
 public class ResetPasswordTemplateMessage extends TemplateBaseMessage {
 
 	private String password; 
-	private static String SUBJECT = "Reset à Password";
+	private static String SUBJECT = "Reset da Password";
 	private static String MESSAGE_MODULE = "ResetPassword";
 	
 	/**

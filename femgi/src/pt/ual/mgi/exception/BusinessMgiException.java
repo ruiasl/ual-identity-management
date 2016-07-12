@@ -8,8 +8,10 @@ package pt.ual.mgi.exception;
  * 
  * @author 20070337
  * @version 1.0
+ * 
+ * @see MgiException
  */
-public class BusinessMgiException extends Exception {
+public class BusinessMgiException extends MgiException {
 
 	/**
 	 * 
