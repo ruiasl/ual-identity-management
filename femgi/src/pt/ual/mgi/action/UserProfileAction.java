@@ -174,7 +174,7 @@ public class UserProfileAction extends BaseAction {
         
         log.debug("Validate input parameters...");
         if(this.userAccountDetail == null)
-        	this.addActionError(this.getText("user.profile.update.error"));
+        	this.addActionError(this.getText("user.sec.profile.update.error"));
         else{
         	if(this.oldPassword == null || "".equals(this.oldPassword))
         		this.addActionError(this.getText("field.general.error", new String[]{this.getText("user.profile.old.password")}));
@@ -193,16 +193,16 @@ public class UserProfileAction extends BaseAction {
         			this.getPrincipalUsername(), this.oldPassword, this.newPassword);
         } catch(MgiException e){
         	log.error("Error updating user: {}", e.getMessage());
-        	this.addActionError(this.getText("user.profile.update.error"));
+        	this.addActionError(this.getText("user.sec.profile.update.error"));
         } catch(Exception e){
         	log.error("Error updating user: {}", e.getMessage());
-        	this.addActionError(this.getText("user.profile.update.error"));
+        	this.addActionError(this.getText("user.sec.profile.update.error"));
         }
         
         if(this.hasActionErrors())
         	return ERROR;
         
-        this.addActionMessage(this.getText("user.profile.update.success"));
+        this.addActionMessage(this.getText("user.sec.profile.update.success"));
         
         log.debug("Exiting UserProfileAction.update...");
         return SUCCESS;

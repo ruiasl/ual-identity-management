@@ -3,6 +3,7 @@
  */
 package pt.ual.mgi.manager.ldap;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -110,7 +111,8 @@ public class LdapManager implements ILdapManager {
 			throw new MgiException("LDAP error: search failed", e);
 		}
 		try {
-			searchCursor.next();
+			if(!searchCursor.next())
+				return null;
 		} catch (LdapException e) {
 			log.debug("LDAP error: search failed");
 			throw new MgiException("LDAP error: search failed", e);
@@ -202,7 +204,11 @@ public class LdapManager implements ILdapManager {
 		String searchAttribute = userId;
 		String searchCriteria = userAccountDetail.getUserId();
 		log.debug("Exiting LdapManager createEntry");
-		return convertEntryToAccount(getEntry(connection, baseDn, searchAttribute, searchCriteria));
+		userAccountDetail = convertEntryToAccount(
+				getEntry(connection, baseDn, searchAttribute, searchCriteria));
+		this.releaseConnection(connection);
+		log.debug("Exiting LdapManager createEntry");
+		return userAccountDetail;
 	}
 
 	/*
@@ -224,6 +230,7 @@ public class LdapManager implements ILdapManager {
 			log.debug("LDAP error: unexpected error deleting entry from LDAP");
 			throw new MgiException("LDAP error: unexpected error deleting entry from LDAP", e);
 		}
+		this.releaseConnection(connection);
 		log.debug("Exiting LdapManager deleteEntry");
 	}
 
@@ -320,8 +327,12 @@ public class LdapManager implements ILdapManager {
 		// return the updated entry as userAccount
 		String searchAttribute = userId;
 		String searchCriteria = userAccountDetail.getUserId();
+		
+		userAccountDetail = convertEntryToAccount(getEntry(connection, baseDn, searchAttribute, searchCriteria));
+		this.releaseConnection(connection);
+		
 		log.debug("Exiting LdapManager updateEntry");
-		return convertEntryToAccount(getEntry(connection, baseDn, searchAttribute, searchCriteria));
+		return userAccountDetail;
 	}
 
 	/*
@@ -358,8 +369,11 @@ public class LdapManager implements ILdapManager {
 		searchAttribute = userId;
 		searchCriteria = userAccountDetail.getUserId();
 		baseDn = "ou=" + destOuName + ",o=" + organization;
+		
+		userAccountDetail = convertEntryToAccount(getEntry(connection, baseDn, searchAttribute, searchCriteria));
+		this.releaseConnection(connection);
 		log.debug("Exiting LdapManager moveEntry");
-		return convertEntryToAccount(getEntry(connection, baseDn, searchAttribute, searchCriteria));
+		return userAccountDetail;
 	}
 
 	/** 
@@ -369,8 +383,7 @@ public class LdapManager implements ILdapManager {
 	 * 
 	 * @see pt.ual.mgi.manager.ldap.ILdapManager#getConnectionFromPool(org.apache.directory.ldap.client.api.LdapConnectionPool)
 	 */
-	private LdapConnection getConnectionFromPool()
-			 {
+	private LdapConnection getConnectionFromPool(){
 		log.debug("Entering LdapManager getConnectionFromPool");
 		try {
 			if(pool==null){
@@ -385,11 +398,27 @@ public class LdapManager implements ILdapManager {
 			return pool.getConnection();
 			
 		} catch (LdapException e) {
-			log.debug("Exiting (unsucessfuly) LdapManager getConnectionFromPool");
+			log.error("Error getting connection: {}", e.getMessage());
 			return null;
 		}
 	}
 
+	/**
+	 * Method that releases an unused connection
+	 * @param ldapConnaection
+	 */
+	private void releaseConnection(LdapConnection ldapConnection){
+		log.debug("Entering LdapManager releaseConnection");
+		try {
+			if(this.pool != null && ldapConnection != null)
+				pool.releaseConnection(ldapConnection);
+			
+		} catch (LdapException e) {
+			log.error("Error releasing connection: {}", e.getMessage());
+		}
+		log.debug("Exiting LdapManager releaseConnection");
+	}
+	
 	/**
 	 * Creates a new connection pool and returns it
 	 * 
@@ -413,6 +442,11 @@ public class LdapManager implements ILdapManager {
 		@SuppressWarnings("unchecked")
 		LdapConnectionPool pool = new LdapConnectionPool( factory );
 		pool.setTestOnBorrow( true );
+		
+		Integer maxActiveConnections = 
+				Integer.valueOf(this.ldapProperties.get("ldap.max.connections.active").toString()); 
+		
+		pool.setMaxActive(maxActiveConnections);
 		log.debug("Exiting LdapManager createConnectionPool");
 		return pool;
 	}
@@ -469,8 +503,6 @@ public class LdapManager implements ILdapManager {
 		log.debug("Entering LdapManager getEntry(userAccountId)");
 		final String userId = this.ldapProperties.getProperty("ldap.entry.attr.id");
 		final String organization = this.ldapProperties.getProperty("ldap.structure.top.organization");
-		final String organizationUnit = this.ldapProperties.getProperty("ldap.structure.users.main.ou");
-		//final String baseDn = "ou=" + organizationUnit + ",o=" + organization;
 		final String baseDn = "o=" + organization;
 		
 		log.debug("Getting connection from pool");
@@ -486,6 +518,7 @@ public class LdapManager implements ILdapManager {
 		String searchCriteria = userAccountId; 
 		Entry entry = getEntry(connection, baseDn, searchAttribute, searchCriteria);
 		log.debug("Exiting LdapManager getEntry(userAccountId)");
+		this.releaseConnection(connection);
 		return entry;
 	}	
 }
